@@ -16,22 +16,29 @@ import numpy as np
 import os
 
 masterlist = []
-basepath = './images/raw_form/245x342_TCG_images_mixed/'
+basepath = './images/processed/245x342_TCG_images_mixed/'
+savepath = './images/processed/cropped/'
 
-
-def cropimage(path):
+def cropimage(path, filename):
     # verify the file is there
-    if os.path.isfile(path):
-        # make sure this is not a GX card
-        img = cv2.imread(path)
+    if os.path.isfile(path + filename):
+        print 'cropping {}'.format(filename)
+        img = cv2.imread(path + filename)
         cropped = img[41:161, 32:214]
-
+        cv2.imwrite(savepath + filename, cropped)
 
 
 
 
 # get a list of files in the base path directory
 toprocess = os.listdir(basepath)
+print '{} images to process'.format(len(toprocess))
+counter = 0
+for f2p in toprocess:
+    cropimage(basepath, f2p)
+    counter = counter + 1
+    print '{} files cropped'.format(str(counter))
+
 
 
 
